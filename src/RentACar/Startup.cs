@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using RentACar.Data;
 using RentACar.Data.Models;
 using RentACar.Infrastructure.Extensions;
+using RentACar.Services.Cars;
+using RentACar.Services.Dealers;
 
 namespace RentACar
 {
@@ -41,12 +43,17 @@ namespace RentACar
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<RentACarDbContext>();
 
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddMemoryCache();
 
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
             });
+
+            services.AddTransient<ICarService, CarService>();
+            services.AddTransient<IDealerService, DealerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
