@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using RentACar.Data;
 using RentACar.Data.Models;
 using RentACar.Infrastructure.Extensions;
+using RentACar.Repositories;
 using RentACar.Services.Cars;
 using RentACar.Services.Dealers;
 
@@ -51,6 +52,10 @@ namespace RentACar
             {
                 options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
             });
+
+            services.AddTransient<ICarRepository, CarRepository>();
+            services.AddTransient<IDealerRepository, DealerRepository>();
+            services.AddTransient<ICaregoryRepository, CategoryRepository>();
 
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<IDealerService, DealerService>();

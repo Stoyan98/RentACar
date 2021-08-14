@@ -1,37 +1,48 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using RentACar.Models;
+using RentACar.Services.Cars;
+using RentACar.Services.Cars.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace RentACar.Controllers
 {
+    using static WebConstants.Cache;
+
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ICarService _carService;
+        private readonly IMemoryCache _cache;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ICarService carService, IMemoryCache cache)
         {
-            _logger = logger;
+            _carService = carService;
+            _cache = cache;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var latestCars = _cache.Get<List<LatestCarServiceModel>>(LatestCarsCacheKey);
+
+            if (latestCars == null)
+            {
+                latestCars = _carService
+                   .Latest()
+                   .ToList();
+
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
+
+                _cache.Set(LatestCarsCacheKey, latestCars, cacheOptions);
+            }
+
+            return View(latestCars);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        public IActionResult Error() => View();
     }
 }

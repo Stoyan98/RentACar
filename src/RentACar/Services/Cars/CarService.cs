@@ -3,6 +3,7 @@ using AutoMapper.QueryableExtensions;
 using RentACar.Data;
 using RentACar.Data.Models;
 using RentACar.Models;
+using RentACar.Repositories;
 using RentACar.Services.Cars.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,15 @@ namespace RentACar.Services.Cars
 {
     public class CarService : ICarService
     {
-        private readonly RentACarDbContext data;
-        private readonly IConfigurationProvider mapper;
+        private readonly ICarRepository _carRepository;
+        private readonly ICaregoryRepository _categoryRepository;
+        private readonly IConfigurationProvider _mapper;
 
-        public CarService(RentACarDbContext data, IMapper mapper)
+        public CarService(ICarRepository carRepository, ICaregoryRepository categoryRepository, IMapper mapper)
         {
-            this.data = data;
-            this.mapper = mapper.ConfigurationProvider;
+            _carRepository = carRepository;
+            _categoryRepository = categoryRepository;
+            _mapper = mapper.ConfigurationProvider;
         }
 
         public CarQueryServiceModel All(
@@ -28,7 +31,7 @@ namespace RentACar.Services.Cars
             int carsPerPage = int.MaxValue,
             bool publicOnly = true)
         {
-            var carsQuery = this.data.Cars
+            var carsQuery = _carRepository.GetAll()
                 .Where(c => !publicOnly || c.IsPublic);
 
             if (!string.IsNullOrWhiteSpace(brand))
@@ -66,20 +69,24 @@ namespace RentACar.Services.Cars
         }
 
         public IEnumerable<LatestCarServiceModel> Latest()
-            => this.data
-                .Cars
-                .Where(c => c.IsPublic)
-                .OrderByDescending(c => c.Id)
-                .ProjectTo<LatestCarServiceModel>(this.mapper)
-                .Take(3)
-                .ToList();
+        {
+            return _carRepository
+                 .GetAll()
+                 .Where(c => c.IsPublic)
+                 .OrderByDescending(c => c.Id)
+                 .ProjectTo<LatestCarServiceModel>(_mapper)
+                 .Take(3)
+                 .ToList();
+        }
 
         public CarDetailsServiceModel Details(int id)
-            => this.data
-                .Cars
-                .Where(c => c.Id == id)
-                .ProjectTo<CarDetailsServiceModel>(this.mapper)
-                .FirstOrDefault();
+        {
+            return _carRepository
+                   .GetAll()
+                   .Where(c => c.Id == id)
+                   .ProjectTo<CarDetailsServiceModel>(_mapper)
+                   .FirstOrDefault();
+        }
 
         public int Create(string brand, string model, string description, string imageUrl, int year, int categoryId, int dealerId)
         {
@@ -95,8 +102,7 @@ namespace RentACar.Services.Cars
                 IsPublic = false
             };
 
-            this.data.Cars.Add(carData);
-            this.data.SaveChanges();
+            _carRepository.Add(carData);
 
             return carData.Id;
         }
@@ -111,7 +117,7 @@ namespace RentACar.Services.Cars
             int categoryId,
             bool isPublic)
         {
-            var carData = this.data.Cars.Find(id);
+            var carData = _carRepository.FindById(id);
 
             if (carData == null)
             {
@@ -126,52 +132,59 @@ namespace RentACar.Services.Cars
             carData.CategoryId = categoryId;
             carData.IsPublic = isPublic;
 
-            this.data.SaveChanges();
+            _carRepository.Save();
 
             return true;
         }
 
         public IEnumerable<CarServiceModel> ByUser(string userId)
-            => GetCars(this.data
-                .Cars
-                .Where(c => c.Dealer.UserId == userId));
+        {
+            return GetCars(_carRepository
+                  .GetAll()
+                  .Where(c => c.Dealer.UserId == userId));
+        }
 
         public bool IsByDealer(int carId, int dealerId)
-            => this.data
-                .Cars
+        {
+            return _carRepository
+                .GetAll()
                 .Any(c => c.Id == carId && c.DealerId == dealerId);
+        }
 
         public void ChangeVisility(int carId)
         {
-            var car = this.data.Cars.Find(carId);
+            var car = _carRepository.FindById(carId);
 
             car.IsPublic = !car.IsPublic;
 
-            this.data.SaveChanges();
+            _carRepository.Save();
         }
 
         public IEnumerable<string> AllBrands()
-            => this.data
-                .Cars
-                .Select(c => c.Brand)
-                .Distinct()
-                .OrderBy(br => br)
-                .ToList();
+        {
+            return _carRepository
+                  .GetAll()
+                  .Select(c => c.Brand)
+                  .Distinct()
+                  .OrderBy(br => br)
+                  .ToList();
+        }
 
         public IEnumerable<CarCategoryServiceModel> AllCategories()
-            => this.data
-                .Categories
-                .ProjectTo<CarCategoryServiceModel>(this.mapper)
-                .ToList();
+        {
+            return _categoryRepository.GetAllCategories().ProjectTo<CarCategoryServiceModel>(_mapper).ToList();
+        }
 
         public bool CategoryExists(int categoryId)
-            => this.data
-                .Categories
-                .Any(c => c.Id == categoryId);
+        {
+            return _categoryRepository.CategoryExists(categoryId);
+        }
 
         private IEnumerable<CarServiceModel> GetCars(IQueryable<Car> carQuery)
-            => carQuery
-                .ProjectTo<CarServiceModel>(this.mapper)
-                .ToList();
+        {
+            return carQuery
+                  .ProjectTo<CarServiceModel>(_mapper)
+                  .ToList();
+        }
     }
 }
