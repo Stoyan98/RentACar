@@ -48,5 +48,7 @@ namespace RentACar.Services.Cars
         IEnumerable<CarCategoryServiceModel> AllCategories();
 
         bool CategoryExists(int categoryId);
+
+        void DeleteCar(int carId);
     }
 }

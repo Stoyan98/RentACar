@@ -5,33 +5,38 @@ using System.Linq;
 
 namespace RentACar.Repositories
 {
-    public class CarRepository : ICarRepository
+    public class CarRepository : Repository, ICarRepository
     {
-        private readonly RentACarDbContext _data;
-        public CarRepository(RentACarDbContext data)
+        private readonly RentACarDbContext _context;
+
+        public CarRepository(RentACarDbContext context) : base(context)
         {
-            _data = data;
+            _context = context;
         }
 
         public void Add(Car car)
         {
-            _data.Add(car);
+            _context.Add(car);
             Save();
         }
 
         public IQueryable<Car> GetAll()
         {
-            return _data.Cars;
-        }
-
-        public void Save()
-        {
-            _data.SaveChanges();
+            return _context.Cars;
         }
 
         public Car FindById(int carId)
         {
-            return _data.Cars.FirstOrDefault(x => x.Id == carId);
+            return _context.Cars.FirstOrDefault(x => x.Id == carId);
+        }
+
+        public void DeleteCar(int carId)
+        {
+            var car = FindById(carId);
+
+            _context.Cars.Remove(car);
+
+            Save();
         }
     }
 }

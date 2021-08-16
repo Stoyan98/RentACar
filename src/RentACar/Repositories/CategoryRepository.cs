@@ -4,19 +4,19 @@ using System.Linq;
 
 namespace RentACar.Repositories
 {
-    public class CategoryRepository : ICaregoryRepository
+    public class CategoryRepository : Repository, ICaregoryRepository
     {
-        private readonly RentACarDbContext _data;
+        private readonly RentACarDbContext _context;
 
-        public CategoryRepository(RentACarDbContext data)
+        public CategoryRepository(RentACarDbContext context) : base(context)
         {
-            _data = data;
+            _context = context;
         }
 
         public bool CategoryExists(int caregoryId)
-            => _data.Categories.Any(x => x.Id == caregoryId);
+            => _context.Categories.Any(x => x.Id == caregoryId);
 
         public IQueryable<Category> GetAllCategories()
-            => _data.Categories;
+            => _context.Categories;
     }
 }

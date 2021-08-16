@@ -180,6 +180,11 @@ namespace RentACar.Services.Cars
             return _categoryRepository.CategoryExists(categoryId);
         }
 
+        public void DeleteCar(int carId)
+        {
+            _carRepository.DeleteCar(carId);
+        }
+
         private IEnumerable<CarServiceModel> GetCars(IQueryable<Car> carQuery)
         {
             return carQuery

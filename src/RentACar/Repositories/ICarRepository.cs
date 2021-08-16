@@ -1,5 +1,4 @@
 ﻿using RentACar.Data.Models;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace RentACar.Repositories
@@ -11,6 +10,8 @@ namespace RentACar.Repositories
         IQueryable<Car> GetAll();
 
         Car FindById(int carId);
+
+        void DeleteCar(int carId);
 
         void Save();
     }

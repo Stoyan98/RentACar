@@ -183,5 +183,20 @@ namespace RentACar.Controllers
 
             return RedirectToAction(nameof(Details), new { id, information = car.GetInformation() });
         }
+
+        [Authorize]
+        public IActionResult Delete(int id)
+        {
+            var dealerId = _dealerService.IdByUser(this.User.Id());
+
+            if (dealerId == 0)
+            {
+                return RedirectToAction(nameof(DealersController.Become), "Dealers");
+            }
+
+            _carService.DeleteCar(id);
+
+            return RedirectToAction(nameof(Mine));
+        }
     }
 }
