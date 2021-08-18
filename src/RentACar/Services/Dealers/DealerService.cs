@@ -1,28 +1,32 @@
 ﻿using RentACar.Data;
-using System;
-using System.Collections.Generic;
+using RentACar.Data.Models;
+using RentACar.Repositories;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace RentACar.Services.Dealers
 {
     public class DealerService : IDealerService
     {
-        private readonly RentACarDbContext data;
+        private readonly IDealerRepository _repository;
 
-        public DealerService(RentACarDbContext data)
-            => this.data = data;
+        public DealerService(IDealerRepository repository)
+        { 
+            _repository = repository;
+        }
 
         public bool IsDealer(string userId)
-            => this.data
-                .Dealers
-                .Any(d => d.UserId == userId);
+        {
+            return _repository.IsDealer(userId);
+        }
 
-        public int IdByUser(string userId)
-            => this.data
-                .Dealers
-                .Where(d => d.UserId == userId)
-                .Select(d => d.Id)
-                .FirstOrDefault();
+        public int DealerIdByUser(string userId)
+        {
+            return _repository.DealerIdByUser(userId);
+        }
+
+        public void AddDealer(Dealer dealer)
+        {
+            _repository.Add(dealer);
+        }
     }
 }

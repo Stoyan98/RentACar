@@ -1,9 +1,13 @@
-﻿namespace RentACar.Services.Dealers
+﻿using RentACar.Data.Models;
+
+namespace RentACar.Services.Dealers
 {
     public interface IDealerService
     {
-        public bool IsDealer(string userId);
+        void AddDealer(Dealer dealer);
 
-        public int IdByUser(string userId);
+        bool IsDealer(string userId);
+
+        int DealerIdByUser(string userId);
     }
 }

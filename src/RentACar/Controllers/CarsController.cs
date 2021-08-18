@@ -79,7 +79,7 @@ namespace RentACar.Controllers
         [Authorize]
         public IActionResult Add(CarFormModel car)
         {
-            var dealerId = _dealerService.IdByUser(this.User.Id());
+            var dealerId = _dealerService.DealerIdByUser(this.User.Id());
 
             if (dealerId == 0)
             {
@@ -140,7 +140,7 @@ namespace RentACar.Controllers
         [Authorize]
         public IActionResult Edit(int id, CarFormModel car)
         {
-            var dealerId = _dealerService.IdByUser(this.User.Id());
+            var dealerId = _dealerService.DealerIdByUser(this.User.Id());
 
             if (dealerId == 0 && !User.IsAdmin())
             {
@@ -187,7 +187,7 @@ namespace RentACar.Controllers
         [Authorize]
         public IActionResult Delete(int id)
         {
-            var dealerId = _dealerService.IdByUser(this.User.Id());
+            var dealerId = _dealerService.DealerIdByUser(this.User.Id());
 
             if (dealerId == 0)
             {

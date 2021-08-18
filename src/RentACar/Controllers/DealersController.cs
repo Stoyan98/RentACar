@@ -1,20 +1,21 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RentACar.Data;
 using RentACar.Data.Models;
 using RentACar.Infrastructure.Extensions;
 using RentACar.Models.Dealers;
-using System.Linq;
+using RentACar.Services.Dealers;
 
 namespace RentACar.Controllers
 {
     using static WebConstants;
     public class DealersController : Controller
     {
-        private readonly RentACarDbContext data;
+        private readonly IDealerService _dealerService;
 
-        public DealersController(RentACarDbContext data)
-            => this.data = data;
+        public DealersController(IDealerService dealerService)
+        {
+            _dealerService = dealerService;
+        }
 
         [Authorize]
         public IActionResult Become() => View();
@@ -25,9 +26,7 @@ namespace RentACar.Controllers
         {
             var userId = this.User.Id();
 
-            var userIdAlreadyDealer = this.data
-                .Dealers
-                .Any(d => d.UserId == userId);
+            var userIdAlreadyDealer = _dealerService.DealerIdByUser(userId) != 0 ? true : false;
 
             if (userIdAlreadyDealer)
             {
@@ -45,9 +44,6 @@ namespace RentACar.Controllers
                 PhoneNumber = dealer.PhoneNumber,
                 UserId = userId
             };
-
-            this.data.Dealers.Add(dealerData);
-            this.data.SaveChanges();
 
             TempData[GlobalMessageKey] = "Thank you for becomming a dealer!";
 
