@@ -57,6 +57,7 @@ namespace RentACar
             services.AddTransient<ICarRepository, CarRepository>();
             services.AddTransient<IDealerRepository, DealerRepository>();
             services.AddTransient<ICaregoryRepository, CategoryRepository>();
+            services.AddTransient<IRentRepository, RentRepository>();
 
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<IDealerService, DealerService>();

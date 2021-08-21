@@ -17,6 +17,8 @@ namespace RentACar.Data
 
         public DbSet<Dealer> Dealers { get; init; }
 
+        public DbSet<Rent> Rents { get; init; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder
@@ -34,10 +36,24 @@ namespace RentACar.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder
+                .Entity<Rent>()
+                .HasOne(c => c.Car)
+                .WithMany(d => d.Rents)
+                .HasForeignKey(c => c.CarId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
                 .Entity<Dealer>()
                 .HasOne<User>()
                 .WithOne()
                 .HasForeignKey<Dealer>(d => d.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Rent>()
+                .HasOne<User>()
+                .WithOne()
+                .HasForeignKey<Rent>(r => r.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);

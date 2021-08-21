@@ -1,7 +1,10 @@
-﻿namespace RentACar.Data.Models
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace RentACar.Data.Models
 {
-    using System.ComponentModel.DataAnnotations;
-    using static DataConstants.Car;
+    using static RentACar.Data.DataConstants.Car;
+
     public class Car
     {
         public int Id { get; init; }
@@ -31,5 +34,7 @@
         public int DealerId { get; init; }
 
         public Dealer Dealer { get; init; }
+
+        public IEnumerable<Rent> Rents { get; set; }
     }
 }

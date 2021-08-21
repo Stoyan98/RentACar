@@ -1,19 +1,25 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RentACar.Infrastructure.Extensions;
 using RentACar.Models.Rents;
+using RentACar.Services.Cars;
 using RentACar.Services.Rents;
 
 namespace RentACar.Controllers
 {
+    using static WebConstants;
+
     public class RentsController : Controller
     {
         private readonly IRentService _rentService;
+        private readonly ICarService _carService;
         private readonly IMapper _mapper;
 
-        public RentsController(IRentService rentService, IMapper mapper)
+        public RentsController(IRentService rentService, ICarService carService, IMapper mapper)
         {
             _rentService = rentService;
+            _carService = carService;
             _mapper = mapper;
         }
 
@@ -38,7 +44,20 @@ namespace RentACar.Controllers
                 return View(rent);
             }
 
-            return View();
+            var rentId = _rentService.Create(
+                rent.FirstName, 
+                rent.LastName, 
+                rent.PhoneNumber, 
+                rent.StartDate, 
+                rent.EndDate, 
+                rent.CarId, 
+                this.User.Id());
+
+            var car = _carService.Details(rent.CarId);
+
+            TempData[GlobalMessageKey] = $"You rent a car ({car.Brand} {car.Model} - {car.Year}) successfully from {rent.StartDate.ToShortDateString()} to {rent.EndDate.ToShortDateString()}";
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
