@@ -28,7 +28,7 @@ namespace RentACar.Models.Rents
         [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-        [EndDate(ErrorMessage = "End date can not be less than start date")]
+        [EndDate(StartDateProperty = "StartDate", ErrorMessage = "End date can not be less than start date")]
         public DateTime EndDate { get; init; }
 
         [Required]
