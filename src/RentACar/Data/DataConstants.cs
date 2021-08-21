@@ -30,7 +30,17 @@
             public const int NameMinLength = 2;
             public const int NameMaxLength = 25;
             public const int PhoneNumberMinLength = 6;
-            public const int PhoneNumberMaxLength = 30;
+            public const int PhoneNumberMaxLength = 15;
+        }
+
+        public class Rent
+        {
+            public const int FirstNameMinLength = 2;
+            public const int FirstNameMaxLength = 15;
+            public const int LastNameMinLength = 4;
+            public const int LastNameMaxLength = 20;
+            public const int PhoneNumberMinLength = 6;
+            public const int PhoneNumberMaxLength = 15;
         }
     }
 }

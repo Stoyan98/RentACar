@@ -12,6 +12,7 @@ using RentACar.Infrastructure.Extensions;
 using RentACar.Repositories;
 using RentACar.Services.Cars;
 using RentACar.Services.Dealers;
+using RentACar.Services.Rents;
 
 namespace RentACar
 {
@@ -59,6 +60,7 @@ namespace RentACar
 
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<IDealerService, DealerService>();
+            services.AddTransient<IRentService, RentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

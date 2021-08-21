@@ -14,7 +14,8 @@
             <p class="card-text">Dealer Number: <b>@Model.DealerPhoneNumber</b></p>
             @if (SignInManager.IsSignedIn(User))
             {
-        <a asp-controller="Cars" asp-action="Edit" asp-route-id="" class="btn btn-warning"><b>Rent a car</b></a>            }
+                <a asp-controller="Rents" asp-action="NewRent" asp-route-id="@Model.Id" class="btn btn-warning"><b>Rent a car</b></a>            
+            }
         </div>
     </div>
 </div>
