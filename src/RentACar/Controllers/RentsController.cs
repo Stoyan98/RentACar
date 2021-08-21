@@ -33,7 +33,10 @@ namespace RentACar.Controllers
         [HttpPost]
         public IActionResult NewRent(RentFormModel rent)
         {
-            var rentTest = rent;
+            if (!ModelState.IsValid)
+            {
+                return View(rent);
+            }
 
             return View();
         }

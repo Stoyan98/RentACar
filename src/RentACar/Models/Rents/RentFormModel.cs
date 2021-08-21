@@ -1,4 +1,5 @@
-﻿using RentACar.Services.Rents.Models;
+﻿using RentACar.Infrastructure.Attributes;
+using RentACar.Services.Rents.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -21,11 +22,13 @@ namespace RentACar.Models.Rents
         [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [StartDate(ErrorMessage = "Start Date can not be in past")]
         public DateTime StartDate { get; init; }
 
         [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [EndDate(ErrorMessage = "End date can not be less than start date")]
         public DateTime EndDate { get; init; }
 
         [Required]
