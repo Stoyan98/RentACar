@@ -1,5 +1,20 @@
-﻿@model CarDetailsServiceModel
+﻿@using RentACar.Data.Models
+@using Microsoft.AspNetCore.Identity
+
+@model CarDetailsServiceModel
+@inject SignInManager<User> SignInManager
 
 <div class="col-md-6 offset-3">
-    <h2>@Model.Brand @Model.Model</h2>
+    <div class="card mb-3">
+        <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.ImageUrl" alt="@Model.Brand @Model.Model - @Model.Year (@Model.CategoryName)">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Model @Model.Brand - @Model.Year (@Model.CategoryName)</h5>
+            <p class="card-text">Description: <b>@Model.Description</b></p>
+            <p class="card-text">Dealer: <b>@Model.DealerName</b></p>
+            <p class="card-text">Dealer Number: <b>@Model.DealerPhoneNumber</b></p>
+            @if (SignInManager.IsSignedIn(User))
+            {
+        <a asp-controller="Cars" asp-action="Edit" asp-route-id="" class="btn btn-warning"><b>Rent a car</b></a>            }
+        </div>
+    </div>
 </div>

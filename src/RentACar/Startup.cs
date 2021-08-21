@@ -85,7 +85,7 @@ namespace RentACar
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
-                    //endpoints.MapDefaultAreaRoute();
+                    endpoints.MapDefaultAreaRoute();
 
                     endpoints.MapControllerRoute(
                         name: "default",
