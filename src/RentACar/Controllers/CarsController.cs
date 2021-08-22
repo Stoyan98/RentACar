@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using RentACar.Infrastructure.Extensions;
 using RentACar.Services.Comments;
 using RentACar.Models.Comments;
+using System;
 
 namespace RentACar.Controllers
 {
@@ -66,7 +67,11 @@ namespace RentACar.Controllers
 
             var commentsModel = new CommentsModel
             {
-                Comments = comments
+                Comments = comments,
+                CommentFormModel = new CommentFormModel
+                {
+                    CarId = car.Id
+                }
             };
 
             var view = new DetailsModel
@@ -214,6 +219,17 @@ namespace RentACar.Controllers
             _carService.DeleteCar(id);
 
             return RedirectToAction(nameof(Mine));
+        }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Comment(int carId, CommentFormModel comment)
+        {
+            _commentService.Create(comment.CommentMessage, DateTime.UtcNow, carId, this.User.Id());
+
+            var car = _carService.Details(carId);
+
+            return RedirectToAction(nameof(Details), new { id = carId, information = car.GetInformation() });
         }
     }
 }

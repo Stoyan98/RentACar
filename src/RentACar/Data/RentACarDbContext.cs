@@ -65,12 +65,12 @@ namespace RentACar.Data
                 .HasForeignKey<Rent>(r => r.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder
-                .Entity<Comment>()
-                .HasOne<User>()
-                .WithOne()
-                .HasForeignKey<Comment>(r => r.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //builder
+            //    .Entity<Comment>()
+            //    .HasOne<User>()
+            //    .WithOne()
+            //    .HasForeignKey<Comment>(r => r.UserId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
         }

@@ -1,5 +1,10 @@
-﻿<div class="d-flex flex-row add-comment-section mt-4 mb-4">
-    <img class="img-fluid img-responsive rounded-circle mr-2" src="https://i.imgur.com/qdiP4DB.jpg" width="38">
-    <input type="text" class="form-control mr-3" placeholder="Add comment">
-    <button class="btn btn-primary" type="button">Comment</button>
-</div>
+﻿@model CommentFormModel
+
+<form method="post" asp-controller="Cars" asp-action="Comment">
+    @Html.HiddenFor(c => c.CarId)
+    <div class="d-flex flex-row add-comment-section mt-4 mb-4">
+        <img class="img-fluid img-responsive rounded-circle mr-2" src="https://i.imgur.com/qdiP4DB.jpg" width="38">
+        <input type="text" class="form-control mr-3" asp-for="CommentMessage" placeholder="Add comment">
+        <button class="btn btn-primary" type="submit">Comment</button>
+    </div>
+</form>

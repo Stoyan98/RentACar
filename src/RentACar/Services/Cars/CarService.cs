@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using RentACar.Data;
 using RentACar.Data.Models;
 using RentACar.Models;
 using RentACar.Repositories;
