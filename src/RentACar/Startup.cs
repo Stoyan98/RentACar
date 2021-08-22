@@ -11,6 +11,7 @@ using RentACar.Data.Models;
 using RentACar.Infrastructure.Extensions;
 using RentACar.Repositories;
 using RentACar.Services.Cars;
+using RentACar.Services.Comments;
 using RentACar.Services.Dealers;
 using RentACar.Services.Rents;
 
@@ -58,10 +59,12 @@ namespace RentACar
             services.AddTransient<IDealerRepository, DealerRepository>();
             services.AddTransient<ICaregoryRepository, CategoryRepository>();
             services.AddTransient<IRentRepository, RentRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
 
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<IDealerService, DealerService>();
             services.AddTransient<IRentService, RentService>();
+            services.AddTransient<ICommentService, CommentService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

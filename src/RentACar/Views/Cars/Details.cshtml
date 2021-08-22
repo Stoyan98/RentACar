@@ -1,21 +1,35 @@
 ﻿@using RentACar.Data.Models
 @using Microsoft.AspNetCore.Identity
 
-@model CarDetailsServiceModel
+@model DetailsModel
 @inject SignInManager<User> SignInManager
+
+@{ 
+    var car = Model.CarDetailModel;
+}
 
 <div class="col-md-6 offset-3">
     <div class="card mb-3">
-        <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.ImageUrl" alt="@Model.Brand @Model.Model - @Model.Year (@Model.CategoryName)">
+        <img src="@car.ImageUrl" class="card-img-top" alt="@car.ImageUrl" alt="@car.Brand @car.Model - @car.Year (@car.CategoryName)">
         <div class="card-body">
-            <h5 class="card-title">@Model.Model @Model.Brand - @Model.Year (@Model.CategoryName)</h5>
-            <p class="card-text">Description: <b>@Model.Description</b></p>
-            <p class="card-text">Dealer: <b>@Model.DealerName</b></p>
-            <p class="card-text">Dealer Number: <b>@Model.DealerPhoneNumber</b></p>
+            <h5 class="card-title">@car.Model @car.Brand - @car.Year (@car.CategoryName)</h5>
+            <p class="card-text">Description: <b>@car.Description</b></p>
+            <p class="card-text">Dealer: <b>@car.DealerName</b></p>
+            <p class="card-text">Dealer Number: <b>@car.DealerPhoneNumber</b></p>
             @if (SignInManager.IsSignedIn(User))
             {
-                <a asp-controller="Rents" asp-action="NewRent" asp-route-id="@Model.Id" class="btn btn-warning"><b>Rent a car</b></a>            
+                <a asp-controller="Rents" asp-action="NewRent" asp-route-id="@car.Id" class="btn btn-warning"><b>Rent a car</b></a>            
             }
         </div>
+    </div>
+</div>
+
+<div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-center row">
+        <div class="d-flex flex-column col-md-8">
+            <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
+                <partial name="_CommentFormPartial" model="@Model.Comments"/>
+            </div>            
+        </div>            
     </div>
 </div>

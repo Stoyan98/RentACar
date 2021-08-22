@@ -5,6 +5,8 @@ using RentACar.Services.Dealers;
 using RentACar.Models.Cars;
 using Microsoft.AspNetCore.Authorization;
 using RentACar.Infrastructure.Extensions;
+using RentACar.Services.Comments;
+using RentACar.Models.Comments;
 
 namespace RentACar.Controllers
 {
@@ -14,12 +16,14 @@ namespace RentACar.Controllers
     {
         private readonly ICarService _carService;
         private readonly IDealerService _dealerService;
+        private readonly ICommentService _commentService;
         private readonly IMapper _mapper;
 
-        public CarsController(ICarService carService, IDealerService dealerService, IMapper mapper)
+        public CarsController(ICarService carService, IDealerService dealerService, ICommentService commentService, IMapper mapper)
         {
             _carService = carService;
             _dealerService = dealerService;
+            _commentService = commentService;
             _mapper = mapper;
         }
 
@@ -58,7 +62,20 @@ namespace RentACar.Controllers
                 return BadRequest();
             }
 
-            return View(car);
+            var comments = _commentService.GetCommentsByCarId(id);
+
+            var commentsModel = new CommentsModel
+            {
+                Comments = comments
+            };
+
+            var view = new DetailsModel
+            {
+                CarDetailModel = car,
+                Comments = commentsModel
+            };
+
+            return View(view);
         }
 
         [Authorize]

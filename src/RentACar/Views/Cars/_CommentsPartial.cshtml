@@ -1,0 +1,35 @@
+﻿@using RentACar.Data.Models
+@using Microsoft.AspNetCore.Identity
+
+@model CommentsModel
+@inject SignInManager<User> SignInManager
+
+<div class="coment-bottom bg-white p-2 px-4">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <partial name="_CommentFormPartial" />
+    }
+
+    @if (Model.Comments.Any())
+    {
+        @foreach (var comment in Model.Comments)
+        {
+            <div class="commented-section mt-2">
+                <div class="d-flex flex-row align-items-center commented-user">
+                    <span class="dot mb-1"></span>
+                    <span class="mb-1 ml-2">@comment.CommentDate.ToShortDateString()</span>
+                </div>
+                <div class="comment-text-sm"><span>@comment.CommentMessage</span></div>
+                <div class="reply-section">
+                    <div class="d-flex flex-row align-items-center voting-icons">
+                        <i class="fa fa-sort-up fa-2x mt-3 hit-voting"></i><i class="fa fa-sort-down fa-2x mb-3 hit-voting"></i><span class="ml-2">15 maybe add likes but if NOT remove!</span><span class="dot ml-2"></span>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h3>There are no comments yet!</h3>
+    }
+</div>

@@ -10,7 +10,7 @@ namespace RentACar.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(CommentMaxLength)]
+        [StringLength(CommentMaxLength, MinimumLength = CommentMinLength)]
         public string CommentMessage { get; set; }
 
         [Required]

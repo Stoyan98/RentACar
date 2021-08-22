@@ -2,6 +2,7 @@
 using RentACar.Data.Models;
 using RentACar.Models.Cars;
 using RentACar.Services.Cars.Models;
+using RentACar.Services.Comments.Models;
 
 namespace RentACar.Infrastructure
 {
@@ -13,6 +14,7 @@ namespace RentACar.Infrastructure
 
             this.CreateMap<Car, LatestCarServiceModel>();
             this.CreateMap<CarDetailsServiceModel, CarFormModel>();
+            this.CreateMap<Comment, CommentServiceModel>();
 
             this.CreateMap<Car, CarServiceModel>()
                 .ForMember(c => c.CategoryName, cfg => cfg.MapFrom(c => c.Category.Name));

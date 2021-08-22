@@ -45,6 +45,7 @@
 
         public class Comment
         {
+            public const int CommentMinLength = 2;
             public const int CommentMaxLength = 500; 
         }
     }
