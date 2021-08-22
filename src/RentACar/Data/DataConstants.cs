@@ -42,5 +42,10 @@
             public const int PhoneNumberMinLength = 6;
             public const int PhoneNumberMaxLength = 15;
         }
+
+        public class Comment
+        {
+            public const int CommentMaxLength = 500; 
+        }
     }
 }

@@ -36,5 +36,7 @@ namespace RentACar.Data.Models
         public Dealer Dealer { get; init; }
 
         public IEnumerable<Rent> Rents { get; set; }
+
+        public IEnumerable<Comment> Comments { get; set; }
     }
 }

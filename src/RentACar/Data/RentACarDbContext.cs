@@ -19,6 +19,8 @@ namespace RentACar.Data
 
         public DbSet<Rent> Rents { get; init; }
 
+        public DbSet<Comment> Comments { get; init; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder
@@ -38,7 +40,14 @@ namespace RentACar.Data
             builder
                 .Entity<Rent>()
                 .HasOne(c => c.Car)
-                .WithMany(d => d.Rents)
+                .WithMany(r => r.Rents)
+                .HasForeignKey(c => c.CarId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Comment>()
+                .HasOne(c => c.Car)
+                .WithMany(c => c.Comments)
                 .HasForeignKey(c => c.CarId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -54,6 +63,13 @@ namespace RentACar.Data
                 .HasOne<User>()
                 .WithOne()
                 .HasForeignKey<Rent>(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder
+                .Entity<Comment>()
+                .HasOne<User>()
+                .WithOne()
+                .HasForeignKey<Comment>(r => r.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
