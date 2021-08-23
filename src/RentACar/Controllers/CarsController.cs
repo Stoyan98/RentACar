@@ -71,7 +71,8 @@ namespace RentACar.Controllers
                 CommentFormModel = new CommentFormModel
                 {
                     CarId = car.Id
-                }
+                },
+                CarId = car.Id
             };
 
             var view = new DetailsModel
@@ -210,7 +211,7 @@ namespace RentACar.Controllers
         public IActionResult Delete(int id)
         {
             var dealerId = _dealerService.DealerIdByUser(this.User.Id());
-
+            
             if (dealerId == 0)
             {
                 return RedirectToAction(nameof(DealersController.Become), "Dealers");
@@ -229,6 +230,17 @@ namespace RentACar.Controllers
 
             var car = _carService.Details(carId);
 
+            return RedirectToAction(nameof(Details), new { id = carId, information = car.GetInformation() });
+        }
+
+        [Authorize]
+        public IActionResult RemoveComment(int commentId, int carId)
+        {
+            _commentService.RemoveComment(commentId);
+
+            var comments = _commentService.GetCommentsByCarId(carId);
+
+            var car = _carService.Details(carId);
             return RedirectToAction(nameof(Details), new { id = carId, information = car.GetInformation() });
         }
     }

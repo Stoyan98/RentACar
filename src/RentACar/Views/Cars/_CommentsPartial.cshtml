@@ -10,22 +10,29 @@
         <partial name="_CommentFormPartial" model="@Model.CommentFormModel" />
     }
 
+    <input type="hidden" id="carId" value="@Model.CarId">
     @if (Model.Comments.Any())
     {
         @foreach (var comment in Model.Comments)
         {
             <div class="card p-3 mt-2">
                 <div class="d-flex justify-content-between align-items-center">
-                    <div class="user d-flex flex-row align-items-center"> 
-                            <span>
-                                <small class="font-weight-bold">@comment.CommentMessage</small>
-                            </span> 
-                    </div> 
+                    <div class="user d-flex flex-row align-items-center">
+                        <span>
+                            <small class="font-weight-bold">@comment.CommentMessage</small>
+                        </span>
+                    </div>
                     <small>@comment.CommentDate.ToShortDateString()</small>
                 </div>
-                <div class="action d-flex justify-content-between mt-2 align-items-center">
-                    <div class="reply px-4"> <small>Remove</small></div>
-                </div>
+                @if (User.IsAdmin())
+                {
+                    <div class="action d-flex justify-content-between mt-2 align-items-center">
+                        <div class="reply">
+                            @*<div style="display: none" id="commentId">@comment.Id</div>*@
+                            <a asp-controller="Cars" asp-action="RemoveComment" asp-route-commentId="@comment.Id" asp-route-carId="@Model.CarId">Remove</a>
+                        </div>
+                    </div>
+                }
             </div>
         }
     }
@@ -34,3 +41,4 @@
         <h3>There are no comments yet!</h3>
     }
 </div>
+

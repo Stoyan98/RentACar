@@ -8,5 +8,7 @@ namespace RentACar.Repositories
         void Add(Comment comment);
 
         IQueryable<Comment> GetAll();
+
+        void Remove(int id);
     }
 }

@@ -19,6 +19,15 @@ namespace RentACar.Repositories
             Save();
         }
 
+        public void Remove(int id)
+        {
+            var comment = _context.Comments.Where(c => c.Id == id).FirstOrDefault();
+
+            _context.Comments.Remove(comment);
+
+            Save();
+        }
+
         public IQueryable<Comment> GetAll()
         {
             return _context.Comments;

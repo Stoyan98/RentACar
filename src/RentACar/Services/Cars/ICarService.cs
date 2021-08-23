@@ -11,7 +11,7 @@ namespace RentACar.Services.Cars
             string searchTerm = null,
             CarSorting sorting = CarSorting.DateCreated,
             int currentPage = 1,
-            int carsPerPage = int.MaxValue,
+            int carsPerPage = 9,
             bool publicOnly = true);
 
         IEnumerable<LatestCarServiceModel> Latest();

@@ -4,32 +4,31 @@
 @model DetailsModel
 @inject SignInManager<User> SignInManager
 
-@{ 
+<link rel="stylesheet" href="~/css/Details.css" />
+
+
+@{
     var car = Model.CarDetailModel;
 }
 
-<div class="col-md-6 offset-3">
-    <div class="card mb-3">
-        <img src="@car.ImageUrl" class="card-img-top" alt="@car.ImageUrl" alt="@car.Brand @car.Model - @car.Year (@car.CategoryName)">
-        <div class="card-body">
-            <h5 class="card-title">@car.Model @car.Brand - @car.Year (@car.CategoryName)</h5>
-            <p class="card-text">Description: <b>@car.Description</b></p>
-            <p class="card-text">Dealer: <b>@car.DealerName</b></p>
-            <p class="card-text">Dealer Number: <b>@car.DealerPhoneNumber</b></p>
-            @if (SignInManager.IsSignedIn(User))
-            {
-                <a asp-controller="Rents" asp-action="NewRent" asp-route-id="@car.Id" class="btn btn-warning"><b>Rent a car</b></a>            
-            }
-        </div>
+<div class="card mb-3">
+    <img src="@car.ImageUrl" class="card-img-top" alt="@car.ImageUrl" alt="@car.Brand @car.Model - @car.Year (@car.CategoryName)">
+    <div class="card-body">
+        <h3 class="card-title">@car.Model @car.Brand - @car.Year (@car.CategoryName)</h3>
+        <p class="card-text font-weight-bold">Description: @car.Description</p>
+        <p class="card-text font-weight-bold">Dealer: @car.DealerName</p>
+        <p class="card-text font-weight-bold">Dealer Number: @car.DealerPhoneNumber</p>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <a asp-controller="Rents" asp-action="NewRent" asp-route-id="@car.Id" class="btn btn-primary"><b>Rent a car</b></a>
+        }
     </div>
 </div>
 
-<div class="container mt-5 mb-5">
-    <div class="d-flex justify-content-center row">
-        <div class="d-flex flex-column col-md-8">
-            <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
-                <partial name="_CommentsPartial" model="@Model.Comments"/>
-            </div>            
-        </div>            
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-8">
+            <partial name="_CommentsPartial" model="@Model.Comments" />
+        </div>
     </div>
 </div>

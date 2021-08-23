@@ -27,7 +27,7 @@ namespace RentACar.Services.Cars
             string searchTerm = null,
             CarSorting sorting = CarSorting.DateCreated,
             int currentPage = 1,
-            int carsPerPage = int.MaxValue,
+            int carsPerPage = 9,
             bool publicOnly = true)
         {
             var carsQuery = _carRepository.GetAll()
@@ -74,7 +74,7 @@ namespace RentACar.Services.Cars
                  .Where(c => c.IsPublic)
                  .OrderByDescending(c => c.Id)
                  .ProjectTo<LatestCarServiceModel>(_mapper)
-                 .Take(3)
+                 .Take(9)
                  .ToList();
         }
 

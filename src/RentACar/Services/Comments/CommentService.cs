@@ -42,5 +42,10 @@ namespace RentACar.Services.Comments
                 .ProjectTo<CommentServiceModel>(_mapper)
                 .ToList();
         }
+
+        public void RemoveComment(int id)
+        {
+            _commentRepository.Remove(id);
+        }
     }
 }

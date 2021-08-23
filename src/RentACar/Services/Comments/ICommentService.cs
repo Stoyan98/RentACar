@@ -13,5 +13,7 @@ namespace RentACar.Services.Comments
                string userId);
 
         IEnumerable<CommentServiceModel> GetCommentsByCarId(int carId);
+
+        void RemoveComment(int id);
     }
 }

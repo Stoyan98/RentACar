@@ -9,7 +9,7 @@ namespace RentACar.Models.Cars
 {
     public class AllCarsQueryModel
     {
-        public const int CarsPerPage = 3;
+        public const int CarsPerPage = 9;
 
         public string Brand { get; init; }
 

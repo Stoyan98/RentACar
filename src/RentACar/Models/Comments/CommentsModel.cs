@@ -8,5 +8,7 @@ namespace RentACar.Models.Comments
         public IEnumerable<CommentServiceModel> Comments { get; set; }
 
         public CommentFormModel CommentFormModel { get; set; }
+
+        public int CarId { get; set; }
     }
 }
