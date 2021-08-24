@@ -15,7 +15,7 @@ namespace RentACar.Areas.Admin.Controllers
         public IActionResult All()
         {
             var cars = _carService
-                .All(publicOnly: false)
+                .All(publicOnly: false, carsPerPage: int.MaxValue)
                 .Cars;
 
             return View(cars);

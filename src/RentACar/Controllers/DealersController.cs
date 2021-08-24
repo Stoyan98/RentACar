@@ -45,6 +45,8 @@ namespace RentACar.Controllers
                 UserId = userId
             };
 
+            _dealerService.AddDealer(dealerData);
+
             TempData[GlobalMessageKey] = "Thank you for becomming a dealer!";
 
             return RedirectToAction(nameof(CarsController.All), "Cars");
