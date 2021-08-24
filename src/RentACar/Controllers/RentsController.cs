@@ -44,15 +44,6 @@ namespace RentACar.Controllers
                 return View(rent);
             }
 
-            var rentId = _rentService.Create(
-                rent.FirstName, 
-                rent.LastName, 
-                rent.PhoneNumber, 
-                rent.StartDate, 
-                rent.EndDate, 
-                rent.CarId, 
-                this.User.Id());
-
             var car = _carService.Details(rent.CarId);
 
             TempData[GlobalMessageKey] = $"You rent a car ({car.Brand} {car.Model} - {car.Year}) successfully from {rent.StartDate.ToShortDateString()} to {rent.EndDate.ToShortDateString()}";
