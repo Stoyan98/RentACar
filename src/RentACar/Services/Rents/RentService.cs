@@ -1,19 +1,29 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using RentACar.Data.Models;
 using RentACar.Repositories;
+using RentACar.Services.Rents.Models;
 using System;
+using System.Collections.Generic;
 
 namespace RentACar.Services.Rents
 {
     public class RentService : IRentService
     {
         private readonly IRentRepository _rentRepository;
-        private readonly IMapper _mapper;
+        private readonly IConfigurationProvider _mapper;
 
         public RentService(IRentRepository rentRepository, IMapper mapper)
         {
             _rentRepository = rentRepository;
-            _mapper = mapper;
+            _mapper = mapper.ConfigurationProvider;
+        }
+
+        public IEnumerable<RentServiceModel> GetAll()
+        {
+            return _rentRepository
+                .GetAll()
+                .ProjectTo<RentServiceModel>(_mapper);
         }
 
         public int Create(
@@ -39,6 +49,11 @@ namespace RentACar.Services.Rents
             _rentRepository.Add(rentData);
 
             return rentData.Id;
+        }
+
+        public void Remove(int id)
+        {
+            _rentRepository.Remove(id);
         }
     }
 }
