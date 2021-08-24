@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="~/css/Details.css" />
 
+@{ ViewBag.Title = "View"; }
 
 @{
     var car = Model.CarDetailModel;
@@ -20,7 +21,7 @@
         <p class="card-text font-weight-bold">Dealer Number: @car.DealerPhoneNumber</p>
         @if (SignInManager.IsSignedIn(User))
         {
-            <a asp-controller="Rents" asp-action="NewRent" asp-route-id="@car.Id" class="btn btn-primary"><b>Rent a car</b></a>
+            <a asp-controller="Rents" asp-action="NewRent" asp-route-id="@car.Id" class="btn btn-outline-primary"><b>Rent the car</b></a>
         }
     </div>
 </div>

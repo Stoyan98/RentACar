@@ -74,7 +74,7 @@ namespace RentACar.Services.Cars
                  .Where(c => c.IsPublic)
                  .OrderByDescending(c => c.Id)
                  .ProjectTo<LatestCarServiceModel>(_mapper)
-                 .Take(9)
+                 .Take(3)
                  .ToList();
         }
 
